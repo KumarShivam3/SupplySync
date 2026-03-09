@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants.@enum;
+using SupplySync.Constants;
 
 namespace SupplySync.Models
 {

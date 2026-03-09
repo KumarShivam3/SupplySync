@@ -1,41 +1,7 @@
-# Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
+.vs/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
-[Ll]ogs/
- 
-# .NET Core
-project.lock.json
-artifacts/
- 
-# ASP.NET Scaffolding
-ScaffoldingReadMe.txt
- 
-# NuGet Packages
-*.nupkg
-*.snupkg
- 
-# Environment variables
-env
- 
-# Test results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
- 
-# Coverage reports
-*.coverage
-*.coveragexml
- 
-# Visual Studio cache (important)
-.vs/
- 
-# Visual Studio user files
 *.user
 *.suo
- 
-# Sensitive configs (untracked)
-appsettings.Development.json
+*.dbmdl
+*.lsproj.user

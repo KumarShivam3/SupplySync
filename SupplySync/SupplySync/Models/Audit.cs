@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants.@enum;
+using SupplySync.Constants;
 
 namespace SupplySync.Models
 {
@@ -31,7 +31,7 @@ namespace SupplySync.Models
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation
-        [ForeignKey(nameof(ComplianceOfficerID))]
-        public virtual User ComplianceOfficer { get; set; } = default!;
+        //[ForeignKey(nameof(ComplianceOfficerID))]
+        //public virtual User ComplianceOfficer { get; set; } = default!;
     }
 }
