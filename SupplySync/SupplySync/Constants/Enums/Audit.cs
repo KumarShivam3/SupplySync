@@ -1,5 +1,5 @@
 ﻿
-namespace SupplySync.Constants
+namespace SupplySync.Constants.Enums
 {
     public enum AuditStatus
     {

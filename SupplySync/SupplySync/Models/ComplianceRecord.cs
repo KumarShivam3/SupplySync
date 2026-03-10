@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -26,13 +26,12 @@ namespace SupplySync.Models
 
         public string? Notes { get; set; } // text
 
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+         public DateTime CreatedAt { get; set; } 
 
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation
-        public virtual Contract Contract { get; set; } = default!;
+        public virtual Contract Contract { get; set; } 
     }
 
 }

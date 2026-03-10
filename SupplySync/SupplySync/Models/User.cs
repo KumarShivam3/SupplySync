@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants;
 using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
@@ -13,26 +11,20 @@ namespace SupplySync.Models
 		public int UserID { get; set; } // PK, Identity
 
 		[Required, MaxLength(150)]
-		public string Name { get; set; } = default!;
+		public string Name { get; set; } 
 
-		[Required ]
-		[MaxLength(50)]
-		private string Email = default!;
+		[Required ,MaxLength(100)] 
+		public string Email {get; set;}
 		
 		public string? Phone { get; set; } 
 
 		[Required]
-		public UserStatus Status { get; set; } = UserStatus.Pending; 
+		public UserStatus Status { get; set; }
 
 		[Required]
-		public bool IsActive { get; set; } = false;
-
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-		[Required]
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
-		public virtual ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+		public bool IsActive { get; set; } 
+		public DateTime CreatedAt { get; set; } 
+		public DateTime UpdatedAt { get; set; } 
+		public ICollection<UserRole> UserRoles { get; set; } 
 	}
 }

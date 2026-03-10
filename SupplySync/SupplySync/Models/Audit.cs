@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -15,7 +15,7 @@ namespace SupplySync.Models
         public int ComplianceOfficerID { get; set; } // FK → User.UserID
 
         [Required, MaxLength(200)]
-        public string Scope { get; set; } = default!; // varchar
+        public string Scope { get; set; } // varchar
 
         public string? Findings { get; set; } // text
 
@@ -23,15 +23,10 @@ namespace SupplySync.Models
         public DateOnly Date { get; set; } // DATE
 
         [Required]
-        public AuditStatus Status { get; set; } // maps to varchar
+         public AuditStatus Status { get; set; } // maps to varchar
 
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
-        // Navigation
-        //[ForeignKey(nameof(ComplianceOfficerID))]
-        //public virtual User ComplianceOfficer { get; set; } = default!;
+        public virtual User ComplianceOfficer { get; set; }
     }
 }

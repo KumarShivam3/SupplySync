@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
 using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
@@ -12,32 +10,24 @@ namespace SupplySync.Models
 		[Key]
 		public int NotificationID { get; set; } // PK (Identity)
 
-		[Required, ForeignKey(nameof(User))]
+		[Required]
 		public int UserID { get; set; } // required
 
-		[ForeignKey(nameof(Contract))]
-		public int? ContractID { get; set; } // nullable
+ 		public int? ContractID { get; set; } // nullable
 
 		[Required]
-		public string Message { get; set; } = default!; // TEXT (no HTML)
+		public string Message { get; set; }   // TEXT (no HTML)
 
 		[Required]
 		public NotificationCategory Category { get; set; } // VARCHAR(20)
 
 		[Required]
-		public NotificationStatus Status { get; set; } = NotificationStatus.Unread; // VARCHAR(20)
-
-		[Required]
-		public DateTime CreatedDate { get; set; } = DateTime.UtcNow; // TIMESTAMP (UTC)
-
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-		[Required]
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
+		public NotificationStatus Status { get; set; }
+		public DateTime CreatedDate { get; set; }
+		public DateTime CreatedAt { get; set; }
+		public DateTime UpdatedAt { get; set; }
 		// Navigation
-		public virtual User User { get; set; } = default!;
+		public virtual User User { get; set; }
 		public virtual Contract? Contract { get; set; }
 	}
 }

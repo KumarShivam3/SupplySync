@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SupplySync.Constants;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -15,14 +15,9 @@ namespace SupplySync.Models
         public ReportScope Scope { get; set; } // maps to varchar
 
         [Required]
-        public string Metrics { get; set; } = "{}";
-
-        [Required]
-        public DateTime GeneratedDate { get; set; } = DateTime.UtcNow; // timestamp
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+        public string Metrics { get; set; }   
+        public DateTime GeneratedDate { get; set; }  
+        public DateTime CreatedAt { get; set; } 
         public DateTime? UpdatedAt { get; set; }
     }
 

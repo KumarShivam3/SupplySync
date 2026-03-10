@@ -13,17 +13,15 @@ namespace SupplySync.Models
 
         [Required]
         public int POID { get; set; }
-        [ForeignKey("POID")]
-        public virtual PurchaseOrder PurchaseOrder { get; set; } = default!; // FK → PurchaseOrder(POID)
+ 
+         public virtual PurchaseOrder PurchaseOrder { get; set; } 
 
         [Required]
         public int VendorId { get; set; }
-        [ForeignKey("VendorId")]
-        public virtual Vendor Vendor { get; set; } = default!; //FK → Vendor(VendorID)
+ 
+        public virtual Vendor Vendor { get; set; } 
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        [Range(0,double.MaxValue)]
         public decimal Amount { get; set; }
 
         [Required]
@@ -31,9 +29,8 @@ namespace SupplySync.Models
 
         [Required]
         public InvoiceStatus Status { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } 
+        public DateTime? UpdatedAt { get; set; } 
 
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using SupplySync.Constants;
+using System.ComponentModel.DataAnnotations.Schema; 
 using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
@@ -19,21 +17,12 @@ namespace SupplySync.Models
 		public VendorDocumentDocType DocType { get; set; }
 
 		[Required]
-		public string FileURI { get; set; } = string.Empty;
-
-		[Required]
-		public DateTime UploadedDate { get; set; } = DateTime.UtcNow;
-
-		[Required]
-		public VendorDocumentVerificationStatus VerificationStatus { get; set; } = VendorDocumentVerificationStatus.Pending;
-		
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-
-
-		[ForeignKey("VendorID")]
-		public virtual Vendor Vendor { get; set; } = null!;
+		public string FileURI { get; set; }  
+		public DateTime UploadedDate { get; set; }  
+		public VendorDocumentVerificationStatus VerificationStatus { get; set; }  
+		public DateTime CreatedAt { get; set; } 
+		public DateTime? UpdatedAt { get; set; }  
+		public virtual Vendor Vendor { get; set; } 
 
 	}
 }

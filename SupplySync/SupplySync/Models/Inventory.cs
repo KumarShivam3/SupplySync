@@ -4,6 +4,7 @@ using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
+	[Table("Inventory")]
 	public class Inventory
 	{
 			[Key]
@@ -13,24 +14,19 @@ namespace SupplySync.Models
 			public int WarehouseID { get; set; } 
 
 			[Required]
-			[MaxLength(150)]
-			public string Item { get; set; } = default!;
+ 			public string Item { get; set; } 
 
 			[Required]
-			[Range(0, int.MaxValue)]
-			public int Quantity { get; set; }
+ 			public int Quantity { get; set; }
 
 			[Required]
 			public DateOnly DateAdded { get; set; }
-
+			
 			[Required]
-			public InventoryStatus Status { get; set; }
-
-			[Required]
-			public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+ 			public InventoryStatus Status { get; set; }
+			public DateTime CreatedAt { get; set; }  
 			public DateTime? UpdatedAt { get; set; }
-			public virtual Warehouse Warehouse { get; set; } = default!;
+			public virtual Warehouse Warehouse { get; set; }  
 		
 	}
 

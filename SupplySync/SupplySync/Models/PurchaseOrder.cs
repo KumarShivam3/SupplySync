@@ -14,29 +14,21 @@ namespace SupplySync.Models
         [Required]
         public int ContractID { get; set; }
 
-        [ForeignKey("ContractID")]
-        public virtual Contract Contract { get; set; } = null!;
+        public virtual Contract Contract { get; set; } 
 
         [Required]
         public DateTime Date { get; set; }
 
-        [Required]
-        [StringLength(150)]
-        public string Item { get; set; } = string.Empty;
+        [Required] 
+        public string Item { get; set; } 
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
         public int Quantity { get; set; }
 
         [Required]
-        public POStatus Status { get; set; } = POStatus.Draft;
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
-
-       
-        public virtual ICollection<Delivery> Deliveries { get; set; } = new List<Delivery>();
+        public POStatus Status { get; set; } 
+        public DateTime CreatedAt { get; set; } 
+        public DateTime? UpdatedAt { get; set; }        
+        public virtual ICollection<Delivery> Deliveries { get; set; } 
     }
 }

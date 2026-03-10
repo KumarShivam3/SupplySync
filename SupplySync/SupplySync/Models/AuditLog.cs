@@ -1,6 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -11,23 +11,19 @@ namespace SupplySync.Models
 		public int AuditID { get; set; }
 
 		// Nullable if system job
-		[ForeignKey(nameof(User))]
 		public int? UserID { get; set; }
 
 		[Required, MaxLength(100)]
-		public string Action { get; set; } = default!; // e.g., CREATE_PO, APPROVE_INVOICE
+		public string Action { get; set; } 
 
 		[Required, MaxLength(200)]
-		public string Resource { get; set; } = default!; // e.g., "PO:1004"
+		public string Resource { get; set; } 
 
-		[Required]
-		public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+		public DateTime Timestamp { get; set; } 
 
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+ 		public DateTime CreatedAt { get; set; } 
 
-		[Required]
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+ 		public DateTime UpdatedAt { get; set; } 
 
 		// Navigation
 		public virtual User? User { get; set; }

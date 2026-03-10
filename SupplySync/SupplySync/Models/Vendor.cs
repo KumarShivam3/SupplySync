@@ -11,24 +11,19 @@ namespace SupplySync.Models
 		public int VendorID { get; set; }
 
 		[Required, MaxLength(150)]
-		public string Name { get; set; } = string.Empty;
+		public string Name { get; set; }  
 
 		[Required, MaxLength(255)]
-		public string ContactInfo { get; set; } = string.Empty;
+		public string ContactInfo { get; set; } 
 
 		[Required]
 		public VendorCategory Category { get; set; }
 
 		[Required]
-		public VendorStatus Status { get; set; }
-
-		[Required]
-		public bool IsActive { get; set; } = true;
-
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-		public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+		public VendorStatus Status { get; set; } 
+		public bool IsActive { get; set; }  
+		public DateTime CreatedAt { get; set; } 
+		public DateTime? UpdatedAt { get; set; } 
 
 	}
 }

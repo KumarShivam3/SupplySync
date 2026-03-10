@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -12,18 +13,15 @@ namespace SupplySync.Models
 		[Required]
 		public int ContractID { get; set; }
 
-		[ForeignKey("ContractID")]
-		public virtual Contract Contract { get; set; } = null!;
+		public virtual Contract Contract { get; set; } 
 
 		[Required]
-		[Column(TypeName = "nvarchar(max)")]
-		public string Description { get; set; } = string.Empty;
+		public string Description { get; set; } 
 
 		[Required]
-		public bool ComplianceFlag {  get; set; } = false;
+		public bool ComplianceFlag {  get; set; } 
 
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+		public DateTime CreatedAt { get; set; } 
+		public DateTime? UpdatedAt { get; set; } 
 	}
 }

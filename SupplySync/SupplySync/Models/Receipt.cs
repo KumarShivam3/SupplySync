@@ -4,6 +4,7 @@ using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
+	[Table("Receipt")]
 	public class Receipt
 	{
 
@@ -19,20 +20,16 @@ namespace SupplySync.Models
 			[Required]
 			public DateOnly Date { get; set; }
 
-			[Required]
-			[Range(1, int.MaxValue)]
+			[Required] 
 			public int Quantity { get; set; }
 
 			[Required]
 			public ReceiptStatus Status { get; set; }
 
-			[Required]
-			public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+			public DateTime CreatedAt { get; set; } 
 			public DateTime? UpdatedAt { get; set; }
-
-			public virtual Warehouse Warehouse { get; set; } = default!;
-			public virtual Delivery Delivery { get; set; } = default!; 
+			public virtual Warehouse Warehouse { get; set; } 
+			public virtual Delivery Delivery { get; set; } 
 		
 	}
 

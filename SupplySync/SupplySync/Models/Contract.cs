@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.ExceptionServices;
 using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
@@ -14,25 +13,20 @@ namespace SupplySync.Models
 		[Required]
 		public int VendorID {  get; set; }
 
-		[ForeignKey("VendorID")]
-		public virtual Vendor Vendor { get; set; } = null!;
+		public virtual Vendor Vendor { get; set; } 
 
 		[Required]
 		public DateTime StartDate { get; set; }  
 
 		[Required]
 		public DateTime EndDate { get; set; }
-
+		
 		[Required]
-		[Column(TypeName = "decimal(18,2)")]
 		public decimal Value {  get; set; }
 
-		[Required]
-		public ContractStatus Status { get; set; }
-
-		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+ 		public ContractStatus Status { get; set; }
+		public DateTime CreatedAt { get; set; } 
+		public DateTime? UpdatedAt { get; set; } 
 
 	}
 }

@@ -1,6 +1,7 @@
-﻿using System;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SupplySync.Constants.Enums;
 
 namespace SupplySync.Models
 {
@@ -8,22 +9,20 @@ namespace SupplySync.Models
 	public class UserRole
 	{
 		[Key]
-		public int UserRoleID { get; set; } // PK
+        public int UserRoleID {  get; set; }
 
-		[Required, ForeignKey(nameof(User))]
+        [Required]
 		public int UserID { get; set; }
 
-		[Required, ForeignKey(nameof(Role))]
-		public int RoleID { get; set; }
-
 		[Required]
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+		public int RoleID { get; set; } 
+		public DateTime CreatedAt { get; set; }  
+		public DateTime UpdatedAt { get; set; } 
 
-		[Required]
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+		public bool IsActive { get; set; }
 
-		// Navigation
-		public virtual User User { get; set; } = default!;
-		public virtual Role Role { get; set; } = default!;
+        // Navigation
+        public virtual User User { get; set; } 
+		public virtual Role Role { get; set; } 
 	}
 }
