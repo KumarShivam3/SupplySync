@@ -27,7 +27,7 @@ namespace SupplySync.Models
         public decimal Amount { get; set; }
 
         [Required]
-        public DateOnly Date { get;set;  }
+        public DateTime Date { get;set;  }
 
         [Required]
         public InvoiceStatus Status { get; set; }
