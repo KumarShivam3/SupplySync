@@ -8,10 +8,13 @@ namespace SupplySync.Config.Configurations
     {
         public void Configure(EntityTypeBuilder<VendorDocument> builder)
         {
-            builder.Property(x => x.DocType).HasConversion<string>().HasMaxLength(30);
+			builder.HasKey(x => x.DocumentID);
+			builder.Property(x => x.DocumentID)
+				   .ValueGeneratedOnAdd();
+			builder.Property(x => x.DocType).HasConversion<string>().HasMaxLength(30);
             builder.Property(x => x.VerificationStatus).HasConversion<string>().HasMaxLength(20);
-
-            builder.Property(x => x.FileURI).IsRequired();
+			builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+			builder.Property(x => x.FileURI).IsRequired();
 
             builder.Property(x => x.UploadedDate).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
@@ -29,9 +32,12 @@ namespace SupplySync.Config.Configurations
     {
         public void Configure(EntityTypeBuilder<ContractTerm> builder)
         {
-            builder.Property(x => x.Description).IsRequired();
-
-            builder.Property(x => x.ComplianceFlag).HasDefaultValue(false);
+			builder.HasKey(x => x.TermID);
+			builder.Property(x => x.TermID)
+				   .ValueGeneratedOnAdd();
+			builder.Property(x => x.Description).IsRequired();
+			builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+			builder.Property(x => x.ComplianceFlag).HasDefaultValue(false);
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
             builder.Property(x => x.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
 

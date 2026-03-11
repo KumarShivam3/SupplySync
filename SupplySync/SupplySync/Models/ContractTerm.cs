@@ -19,7 +19,9 @@ namespace SupplySync.Models
 		public string Description { get; set; } 
 
 		[Required]
-		public bool ComplianceFlag {  get; set; } 
+		public bool ComplianceFlag {  get; set; }
+
+		public bool IsDeleted { get; set; }
 
 		public DateTime CreatedAt { get; set; } 
 		public DateTime? UpdatedAt { get; set; } 

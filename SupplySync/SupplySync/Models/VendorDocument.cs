@@ -19,7 +19,9 @@ namespace SupplySync.Models
 		[Required]
 		public string FileURI { get; set; }  
 		public DateTime UploadedDate { get; set; }  
-		public VendorDocumentVerificationStatus VerificationStatus { get; set; }  
+		public VendorDocumentVerificationStatus VerificationStatus { get; set; }
+
+		public bool IsDeleted { get; set; }
 		public DateTime CreatedAt { get; set; } 
 		public DateTime? UpdatedAt { get; set; }  
 		public virtual Vendor Vendor { get; set; } 

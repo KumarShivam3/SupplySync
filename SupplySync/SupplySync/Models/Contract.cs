@@ -24,7 +24,9 @@ namespace SupplySync.Models
 		[Required]
 		public decimal Value {  get; set; }
 
- 		public ContractStatus Status { get; set; }
+		public bool IsDeleted { get; set; }
+
+		public ContractStatus Status { get; set; }
 		public DateTime CreatedAt { get; set; } 
 		public DateTime? UpdatedAt { get; set; } 
 

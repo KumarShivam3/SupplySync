@@ -20,8 +20,9 @@ namespace SupplySync.Models
 		public VendorCategory Category { get; set; }
 
 		[Required]
-		public VendorStatus Status { get; set; } 
-		public bool IsActive { get; set; }  
+		public VendorStatus Status { get; set; }
+
+		public bool IsDeleted { get; set; }
 		public DateTime CreatedAt { get; set; } 
 		public DateTime? UpdatedAt { get; set; } 
 
