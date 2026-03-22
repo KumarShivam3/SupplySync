@@ -28,7 +28,12 @@ namespace SupplySync.Models
 
 		public ContractStatus Status { get; set; }
 		public DateTime CreatedAt { get; set; } 
-		public DateTime? UpdatedAt { get; set; } 
+		public DateTime? UpdatedAt { get; set; }
+
+
+
+		public virtual ICollection<ContractTerm> ContractTerms { get; set; } = new List<ContractTerm>();
+
 
 	}
 }

@@ -27,12 +27,12 @@ namespace SupplySync.Services
 
 		public async Task<VendorResponseDto> GetVendorById(int vendorId)
 		{
-			Vendor vendor = await _vendorRepository.GetVendorById(vendorId);
+			var vendor = await _vendorRepository.GetVendorById(vendorId);
 
 			if (vendor == null) {
 				throw new KeyNotFoundException("Vendor Not Found");
 			}
-
+			
 			return _mapper.Map<VendorResponseDto>(vendor);
 		}
 
@@ -65,10 +65,11 @@ namespace SupplySync.Services
 		public async Task<VendorResponseDto?> UpdateVendor(int vendorId, UpdateVendorRequestDto updateVendorRequestDto)
 		{
 			Vendor? existingVendor = await _vendorRepository.GetVendorById(vendorId);
-			if (existingVendor == null)
+			if (existingVendor == null || existingVendor.IsDeleted==true)
 			{
 				throw new KeyNotFoundException($"Vendor with ID {vendorId} not found.");
 			}
+			
 			_mapper.Map(updateVendorRequestDto, existingVendor);
 
 			existingVendor.UpdatedAt = DateTime.UtcNow;

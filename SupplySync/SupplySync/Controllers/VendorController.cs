@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SupplySync.DTOs.Vendor;
@@ -23,6 +24,8 @@ namespace SupplySync.Controllers
 		/// <summary>
 		///  get Vendor
 		/// </summary>
+		
+		[Authorize]
 		[HttpGet("{vendorId}")]
 		public async Task<IActionResult> GetVendorById([FromRoute] int vendorId)
 		{
@@ -33,6 +36,7 @@ namespace SupplySync.Controllers
 		/// <summary>
 		///  get All Vendor with filter
 		/// </summary>
+		[Authorize(Roles = "Admin,ProcurementOfficer,WarehouseManager,FinanceOfficer,ComplianceOfficer")]
 		[HttpGet("")]
 		public async Task<IActionResult> GetAllVendorWithFilter([FromQuery] GetVendorFiltersRequestDto getVendorFiltersRequestDto)
 		{
@@ -46,6 +50,7 @@ namespace SupplySync.Controllers
 		///  Create Vendor
 		/// </summary>
 		[HttpPost("")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreateVendor([FromBody] CreateVendorRequestDto createVendorRequestDto)
 		{
 			VendorResponseDto createdVendor = await _vendorService.CreateVendor(createVendorRequestDto);
@@ -56,6 +61,7 @@ namespace SupplySync.Controllers
 		/// <summary>
 		///  update Vendor
 		/// </summary>
+		[Authorize(Roles = "Admin,VendorUser")]
 		[HttpPut("{vendorId}")]
 		public async Task<IActionResult> UpdateVendor([FromRoute] int vendorId, [FromBody] UpdateVendorRequestDto updateVendorRequestDto)
 		{
@@ -72,6 +78,7 @@ namespace SupplySync.Controllers
 		/// <summary>
 		///  get All Vendor Document
 		/// </summary>
+		[Authorize]
 		[HttpGet("{vendorId}/documents")]
 		public async Task<IActionResult> GetAllVendorDocument([FromRoute] int vendorId)
 		{
@@ -82,13 +89,13 @@ namespace SupplySync.Controllers
 		/// <summary>
 		///  Create Vendor Document
 		/// </summary>
+		[Authorize(Roles = "Admin,VendorUser")]
 		[HttpPost("{vendorId}/documents")]
 		public async Task<IActionResult> CreateVendorDocument([FromBody] CreateVendorDocumentRequestDto createVendorDocumentRequestDto)
 		{
 			VendorDocumentResponseDto createdVendorDocument = await _vendorService.CreateVendorDocument(createVendorDocumentRequestDto);
 			return Ok(createdVendorDocument);
 		}
-
 
 	}
 }

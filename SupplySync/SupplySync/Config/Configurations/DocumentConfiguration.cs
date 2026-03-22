@@ -43,7 +43,7 @@ namespace SupplySync.Config.Configurations
             builder.Property(x => x.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasOne(x => x.Contract)
-                   .WithMany()
+                   .WithMany(c => c.ContractTerms)
                    .HasForeignKey(x => x.ContractID)
                    .OnDelete(DeleteBehavior.Restrict)
                    .IsRequired();

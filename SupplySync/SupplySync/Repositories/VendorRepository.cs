@@ -28,7 +28,7 @@ namespace SupplySync.Repositories
 
 			if (!string.IsNullOrWhiteSpace(filters.Name))
 			{
-				query.Where(x => x.Name.Contains(filters.Name));
+				query = query.Where(x => x.Name.Contains(filters.Name));
 			}
 
 			if (filters.Category.HasValue)
