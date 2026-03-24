@@ -12,8 +12,8 @@ using SupplySync.Config;
 namespace SupplySync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260319200315_newconfig")]
-    partial class newconfig
+    [Migration("20260324050342_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -296,8 +296,10 @@ namespace SupplySync.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasDefaultValue("Shipped");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -556,8 +558,10 @@ namespace SupplySync.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasDefaultValue("Draft");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -829,7 +833,8 @@ namespace SupplySync.Migrations
                     b.HasIndex("RoleID");
 
                     b.HasIndex("UserID", "RoleID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("UserRole");
                 });
@@ -1021,7 +1026,7 @@ namespace SupplySync.Migrations
             modelBuilder.Entity("SupplySync.Models.ContractTerm", b =>
                 {
                     b.HasOne("SupplySync.Models.Contract", "Contract")
-                        .WithMany()
+                        .WithMany("ContractTerms")
                         .HasForeignKey("ContractID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1165,6 +1170,11 @@ namespace SupplySync.Migrations
                         .IsRequired();
 
                     b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("SupplySync.Models.Contract", b =>
+                {
+                    b.Navigation("ContractTerms");
                 });
 
             modelBuilder.Entity("SupplySync.Models.PurchaseOrder", b =>

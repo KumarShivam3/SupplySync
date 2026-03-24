@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SupplySync.Migrations
 {
     /// <inheritdoc />
-    public partial class initDb : Migration
+    public partial class init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -352,7 +354,7 @@ namespace SupplySync.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Item = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Draft"),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETUTCDATE()")
@@ -380,7 +382,7 @@ namespace SupplySync.Migrations
                     Item = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Shipped"),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETUTCDATE()")
                 },
@@ -491,6 +493,19 @@ namespace SupplySync.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "RoleID", "RoleType" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "ProcurementOfficer" },
+                    { 3, "VendorUser" },
+                    { 4, "WarehouseManager" },
+                    { 5, "FinanceOfficer" },
+                    { 6, "ComplianceOfficer" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Audit_ComplianceOfficerID",
                 table: "Audit",
@@ -572,6 +587,12 @@ namespace SupplySync.Migrations
                 column: "WarehouseID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                table: "User",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleID",
                 table: "UserRole",
                 column: "RoleID");
@@ -580,7 +601,8 @@ namespace SupplySync.Migrations
                 name: "IX_UserRole_UserID_RoleID",
                 table: "UserRole",
                 columns: new[] { "UserID", "RoleID" },
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VendorDocument_VendorID",

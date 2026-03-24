@@ -8,53 +8,119 @@ namespace SupplySync.Services
 {
 	public class WarehouseService : IWarehouseService
 	{
-		private readonly IWarehouseRepository _repo;
+		private readonly IWarehouseRepository _warehouseRepository;
 		private readonly IMapper _mapper;
 
-		public WarehouseService(IWarehouseRepository repo, IMapper mapper)
+		public WarehouseService(IWarehouseRepository warehouseRepository, IMapper mapper)
 		{
-			_repo = repo;
+			_warehouseRepository = warehouseRepository;
 			_mapper = mapper;
 		}
 
 		public async Task<int> CreateAsync(CreateWarehouseDto dto)
 		{
-			var entity = _mapper.Map<Warehouse>(dto);
-			entity.CreatedAt = DateTime.UtcNow;
-			var created = await _repo.InsertAsync(entity);
-			return created.WarehouseID;
+			if (dto == null)
+			{
+				throw new ArgumentException("Warehouse data is required.");
+			}
+
+			Warehouse newWarehouse = _mapper.Map<Warehouse>(dto);
+			newWarehouse.CreatedAt = DateTime.UtcNow;
+			newWarehouse.IsDeleted = false;
+
+			Warehouse warehouse = await _warehouseRepository.InsertAsync(newWarehouse);
+
+			if (warehouse == null)
+			{
+				throw new ArgumentException("Warehouse not created. An error occurred.");
+			}
+
+			return warehouse.WarehouseID;
 		}
 
 		public async Task<WarehouseResponseDto?> GetByIdAsync(int warehouseId)
 		{
-			var entity = await _repo.GetByIdAsync(warehouseId);
-			return entity == null ? null : _mapper.Map<WarehouseResponseDto>(entity);
+			if (warehouseId <= 0)
+			{
+				throw new ArgumentException("Warehouse ID must be greater than 0.");
+			}
+
+			Warehouse? warehouse = await _warehouseRepository.GetByIdAsync(warehouseId);
+
+			if (warehouse == null || warehouse.IsDeleted == true)
+			{
+				throw new KeyNotFoundException($"Warehouse with ID {warehouseId} not found.");
+			}
+
+			return _mapper.Map<WarehouseResponseDto>(warehouse);
 		}
 
 		public async Task<WarehouseResponseDto?> UpdateAsync(int warehouseId, UpdateWarehouseRequestDto dto)
 		{
-			var existing = await _repo.GetByIdAsync(warehouseId);
-			if (existing == null) return null;
+			if (warehouseId <= 0)
+			{
+				throw new ArgumentException("Warehouse ID must be greater than 0.");
+			}
 
-			_mapper.Map(dto, existing);
-			existing.UpdatedAt = DateTime.UtcNow;
-			var updated = await _repo.UpdateAsync(existing);
+			if (dto == null)
+			{
+				throw new ArgumentException("Warehouse data is required.");
+			}
 
-			return _mapper.Map<WarehouseResponseDto>(updated);
+			Warehouse? existingWarehouse = await _warehouseRepository.GetByIdAsync(warehouseId);
+
+			if (existingWarehouse == null || existingWarehouse.IsDeleted == true)
+			{
+				throw new KeyNotFoundException($"Warehouse with ID {warehouseId} not found.");
+			}
+
+			_mapper.Map(dto, existingWarehouse);
+			existingWarehouse.UpdatedAt = DateTime.UtcNow;
+
+			Warehouse? updatedWarehouse = await _warehouseRepository.UpdateAsync(existingWarehouse);
+
+			if (updatedWarehouse == null)
+			{
+				throw new ArgumentException("Warehouse data not updated. An error occurred.");
+			}
+
+			return _mapper.Map<WarehouseResponseDto>(updatedWarehouse);
 		}
 
 		public async Task<bool> DeleteAsync(int warehouseId)
 		{
-			return await _repo.SoftDeleteAsync(warehouseId);
+			if (warehouseId <= 0)
+			{
+				throw new ArgumentException("Warehouse ID must be greater than 0.");
+			}
+
+			Warehouse? warehouse = await _warehouseRepository.GetByIdAsync(warehouseId);
+
+			if (warehouse == null || warehouse.IsDeleted == true)
+			{
+				throw new KeyNotFoundException($"Warehouse with ID {warehouseId} not found.");
+			}
+
+			bool result = await _warehouseRepository.SoftDeleteAsync(warehouseId);
+
+			if (!result)
+			{
+				throw new ArgumentException("Warehouse not deleted. An error occurred.");
+			}
+
+			return true;
 		}
 
-		public async Task<List<WarehouseListResponseDto>> ListAsync(
-			string? location,
-			string? status,
-			int? capacity)
+		public async Task<List<WarehouseListResponseDto>> ListAsync(string? location, string? status, int? capacity)
 		{
-			var list = await _repo.ListAsync(location, status, capacity);
-			return _mapper.Map<List<WarehouseListResponseDto>>(list);
+			List<Warehouse> warehouses = await _warehouseRepository.ListAsync(location, status, capacity);
+
+			if (warehouses.Count <= 0)
+			{
+				throw new KeyNotFoundException("No warehouses available.");
+			}
+
+			return _mapper.Map<List<WarehouseListResponseDto>>(warehouses);
 		}
 	}
 }
