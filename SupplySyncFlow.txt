@@ -1,0 +1,220 @@
+================================================================================
+                        SUPPLYSYNC — SYSTEM FLOW EXPLANATION
+                     Enterprise Supply Chain Management System
+================================================================================
+
+
+OVERVIEW
+--------
+SupplySync manages the complete procurement lifecycle from vendor registration
+all the way through to payment. There are six roles in the system: Admin,
+Vendor, Procurement Officer, Warehouse Manager, Finance Officer, and Compliance
+Officer. Each role has its own dashboard and can only access what is relevant
+to their job.
+
+
+--------------------------------------------------------------------------------
+STEP 1 — VENDOR REGISTRATION
+--------------------------------------------------------------------------------
+A vendor visits the public registration page and fills in their company details
+such as company name, tax number, license number, contact information, and a
+document URL. Once submitted, their account is created with a status of
+"Pending". The system automatically sends a notification to all Procurement
+Officers informing them that a new vendor is waiting for approval.
+
+The vendor cannot do anything meaningful until they are approved. If they log
+in, they will see a banner saying their account is pending.
+
+
+--------------------------------------------------------------------------------
+STEP 2 — VENDOR APPROVAL
+--------------------------------------------------------------------------------
+The Procurement Officer opens their dashboard and sees the pending vendor in
+the Vendors tab (with a badge showing the count of pending approvals). They can
+click on the vendor name to view full details including documents, tax number,
+and license. They then either approve or reject the vendor.
+
+If approved — the vendor receives a notification and their status changes to
+"Approved". They can now participate in procurement.
+
+If rejected — the vendor receives a notification with the rejection reason. The
+vendor can log in, see the reason, update their details, and reapply. Once
+reapplied their status goes back to "Pending" and Procurement Officers are
+notified again.
+
+
+--------------------------------------------------------------------------------
+STEP 3 — CONTRACT CREATION
+--------------------------------------------------------------------------------
+Before any purchase orders can be raised, there must be an active contract with
+the vendor. The Procurement Officer creates a contract by selecting an approved
+vendor, setting start and end dates, and specifying payment terms, delivery
+terms, and item pricing details.
+
+The contract is first created in "Draft" status. The vendor receives a
+notification that a contract has been created for them. The Procurement Officer
+must then explicitly activate the contract, changing its status to "Active".
+Only active contracts allow Purchase Orders to be created against them. Closed
+contracts do not allow new POs.
+
+
+--------------------------------------------------------------------------------
+STEP 4 — PURCHASE ORDER CREATION
+--------------------------------------------------------------------------------
+With an active contract in place, the Procurement Officer creates a Purchase
+Order. They select the vendor, select the active contract, set an expected
+delivery date, and add line items with quantities and unit prices. The total
+is calculated automatically.
+
+Once created, the PO status is set to "Sent" and the vendor immediately
+receives a notification. The Procurement Officer can cancel a PO as long as
+it has not yet been delivered.
+
+
+--------------------------------------------------------------------------------
+STEP 5 — VENDOR DELIVERY
+--------------------------------------------------------------------------------
+The vendor logs in and sees the Purchase Order on their dashboard. When they
+have shipped the goods, they click "Mark Delivered" on the PO. This changes
+the PO status to "Delivered" and signals the Warehouse Manager that goods are
+on the way.
+
+Until the vendor marks the PO as delivered, the Warehouse Manager cannot create
+a Goods Receipt for it.
+
+
+--------------------------------------------------------------------------------
+STEP 6 — GOODS RECEIPT (WAREHOUSE MANAGER)
+--------------------------------------------------------------------------------
+The Warehouse Manager sees the delivered PO in their "Incoming Deliveries" tab.
+They click "Receive Goods" and are presented with a form showing all items from
+the PO.
+
+They must make one of two decisions:
+
+  ACCEPT — All items are received in good condition. The system automatically
+  adds the received quantities to inventory. The PO stays in "Delivered" status.
+  The vendor receives a notification saying their delivery was received and they
+  can now submit an invoice.
+
+  REJECT — The goods do not meet requirements (wrong items, damaged shipment,
+  etc.). The Warehouse Manager must provide a reason. The system creates a
+  Goods Receipt with status "Rejected" and reverts the PO status back to "Sent".
+  The vendor can see that their delivery was rejected, read the reason, and mark
+  the PO as Delivered again once they re-ship. The cycle repeats until the goods
+  are accepted.
+
+Note: There is no partial acceptance. It is either fully accepted or fully
+rejected to keep the process clean and unambiguous.
+
+
+--------------------------------------------------------------------------------
+STEP 7 — INVENTORY MANAGEMENT
+--------------------------------------------------------------------------------
+When goods are accepted, the inventory is automatically updated. If an item
+already exists in the system by name, its quantity is increased. If it is a new
+item, a new inventory record is created automatically.
+
+The Warehouse Manager can also manually add inventory items, update stock, and
+issue items to departments or employees. When stock for any item drops to 10
+units or below after an issue, a low stock alert notification is sent to the
+Warehouse Manager.
+
+
+--------------------------------------------------------------------------------
+STEP 8 — INVOICE SUBMISSION (VENDOR)
+--------------------------------------------------------------------------------
+Once the Goods Receipt is accepted, the vendor can submit an invoice. They go
+to their Invoices tab and click "Submit Invoice". They select the Purchase Order
+(only delivered POs appear), then select the corresponding Goods Receipt (only
+accepted GRs appear — rejected ones are hidden), and the total amount is
+automatically calculated from the PO items. The vendor cannot change the amount
+manually, preventing overcharging.
+
+The invoice is submitted with status "Submitted". All Finance Officers receive
+a notification immediately.
+
+
+--------------------------------------------------------------------------------
+STEP 9 — THREE-WAY MATCHING AND INVOICE REVIEW (FINANCE OFFICER)
+--------------------------------------------------------------------------------
+The Finance Officer receives a notification and opens the invoice. Before they
+can approve, the system performs a three-way match check:
+
+  1. The invoice must be linked to a valid PO that belongs to that vendor.
+  2. The Goods Receipt linked to the invoice must have status "Accepted".
+  3. There must not already be an approved invoice for the same PO and GR.
+  4. The invoice must currently be in "Submitted" status.
+
+If all checks pass, the Finance Officer can approve or reject the invoice.
+
+If approved — the invoice status changes to "Approved" and the vendor receives
+a notification. The invoice is now ready for payment.
+
+If rejected — the Finance Officer provides a rejection reason. The vendor is
+notified with the reason. The vendor cannot resubmit the same invoice but the
+process can be restarted if needed.
+
+
+--------------------------------------------------------------------------------
+STEP 10 — PAYMENT PROCESSING (FINANCE OFFICER)
+--------------------------------------------------------------------------------
+For approved invoices, the Finance Officer sees a "Pay" button. They click it
+and enter a payment reference number. The amount is fixed and cannot be changed
+— it must match the invoice total exactly. Once confirmed, a Payment record is
+created and linked to the invoice. The vendor receives a notification with the
+payment reference number and amount.
+
+Each invoice can only be paid once. Once paid, the invoice shows as "Paid" with
+the reference and date.
+
+
+--------------------------------------------------------------------------------
+STEP 11 — COMPLIANCE AUDITING
+--------------------------------------------------------------------------------
+The Compliance Officer can perform an audit check on any entity in the system
+at any time — vendors, contracts, purchase orders, invoices, or inventory items.
+They select the entity type, enter the entity ID, choose Pass or Fail, and
+write their findings in the remarks field.
+
+If the result is "Fail", the system immediately notifies all Admins and all
+Procurement Officers so they can take corrective action.
+
+All compliance checks are recorded in an audit log that cannot be edited or
+deleted, providing a complete and tamper-evident compliance trail.
+
+
+--------------------------------------------------------------------------------
+STEP 12 — NOTIFICATIONS (ALL ROLES)
+--------------------------------------------------------------------------------
+Every significant event in the system generates a notification for the relevant
+role. Notifications are shown in real time — the unread count in the top bar
+updates automatically every 15 seconds without requiring a page refresh. Users
+can click on a notification to mark it as read, or mark all as read at once.
+
+
+--------------------------------------------------------------------------------
+STEP 13 — REPORTS
+--------------------------------------------------------------------------------
+Various roles have access to reporting:
+
+  Vendor Performance  — Procurement Officers and Admins can see each vendor's
+  total POs, delivered POs, invoice counts, and total spend.
+
+  Procurement Spending — Finance Officers can see a breakdown of all approved
+  invoices with payment references and a running total.
+
+  Delivery Delays — Procurement Officers can see all POs that have passed their
+  expected delivery date and are still not delivered, along with days delayed.
+
+  Inventory Summary — Warehouse Managers can see current stock levels and how
+  much of each item has been issued.
+
+  Compliance Summary — Compliance Officers can see a count of Pass, Fail, and
+  Pending checks, plus the 10 most recent failures.
+
+
+================================================================================
+                              END OF FLOW DOCUMENT
+                   SupplySync Technologies Pvt. Ltd. — Chennai, India
+================================================================================
